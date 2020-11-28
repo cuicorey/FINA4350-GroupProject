@@ -15,6 +15,7 @@ Take Tesla,Inc.(NasdaqGS:TSLA) as an example. The following images show the targ
 <img width="946" alt="earnings transcript_TSLA" src="https://user-images.githubusercontent.com/62812841/100451812-fb397e00-30f2-11eb-8fc9-be7efdcdfd33.png">
 Image1.1
 
+
 <img width="940" alt="report" src="https://user-images.githubusercontent.com/62812841/100451885-12786b80-30f3-11eb-8f5a-a7c06e4f86f8.png">
 Image1.2
 
@@ -121,3 +122,5 @@ For data cleaning, we use txt files as input, and go through the steps of ***tok
     from tqdm import tqdm
 
 For the purpose of following analysis, all the texts are converted back to sentence and stored in txt file as cleaned data.
+
+## Sentiment Analysis
