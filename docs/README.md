@@ -21,44 +21,6 @@ Apart from the text documents used for NLP analysis, other types of data are als
 ### 2. Web Scraping
 In order to web scrape the target documents from Capital IQ, we use **Selenium** with Python. For example, the code for download the financial reports is shown as follows:
 
-    driver = webdriver.Chrome(executable_path="...", chrome_options=options) #...input the local directory of Chrome driver 
-    driver.implicitly_wait(finish_time)
-    driver.delete_all_cookies()
-    driver.get("https://www.capitaliq.com/CIQDotNet/Filings/FilingsAnnualReports.aspx")
-    driver.find_element(By.ID, "password").send_keys("...") #...input password
-    driver.find_element(By.ID, "username").click()
-    driver.find_element(By.ID, "username").send_keys("...") #... input username
-    driver.find_element(By.ID, "myLoginButton").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle_myCompanySearch_myInnerDS_myTickerBox").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle_myCompanySearch_myInnerDS_myTickerBox").send_keys(company) #company refers to the Ticker of the target company
-    driver.find_element(By.ID, "dspCustomView_Toggle_ddlDateType").click()
-    dropdown = driver.find_element(By.ID, "dspCustomView_Toggle_ddlDateType")
-    dropdown.find_element(By.XPATH, "//option[. = 'Filing Date']").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle_ddlDateType").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle_myDateRange_myFromBox").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle_myDateRange_myFromBox").send_keys("01/10/2020")
-    driver.find_element(By.ID, "dspCustomView_Toggle_myDateRange_myToBox").send_keys('11/10/2020')
-    driver.find_element(By.ID, "dspCustomView_Toggle_myAO_ctl03_EC").click()
-    dropdown = driver.find_element(By.ID, "dspCustomView_Toggle_myAO_Toggle_secFormTypes_optionsList")
-    dropdown.find_element(By.XPATH, "//option[. = '10-Q']").click()
-    dropdown.find_element(By.XPATH, "//option[. = '10-K']").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle_myAO_Toggle_secFormTypes_addBtn").click()
-    dropdown = driver.find_element(By.ID, "dspCustomView_Toggle_myAO_Toggle_countries_optionsList")
-    dropdown.find_element(By.XPATH, "//option[. = 'United States']").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle_myAO_Toggle_countries_addBtn").click()
-    driver.find_element(By.ID, "dspCustomView_Toggle__saveCancel__saveBtn").click()
-    element = driver.find_element(By.ID, "dspCustomView_Toggle__saveCancel__saveBtn")
-    actions = ActionChains(driver)
-    actions.move_to_element(element).perform()
-    element = driver.find_element(By.CSS_SELECTOR, "body")
-    driver.find_element(By.LINK_TEXT, "Form Type").click()
-    driver.find_element(By.CSS_SELECTOR, "tr:nth-child(1) .binderIcoSprite_doctype_word_img").click()
-    driver.find_element(By.CSS_SELECTOR, "tr:nth-child(2) .binderIcoSprite_doctype_word_img").click()
-    driver.find_element(By.CSS_SELECTOR, "tr:nth-child(3) .binderIcoSprite_doctype_word_img").click()
-    driver.find_element(By.CSS_SELECTOR, "tr:nth-child(4) > td > div > a > .binderIcoSprite_doctype_word_img").click()
-    time.sleep(120)
-    driver.quit()
-
 After you type in your login information and the address of Filing Annual Report website, use the driver to set the search criteria, including **Date Range**, **Form Types**, **Company Countries**. Then the driver will lead you to the page shown in section 1. Then click the download button and the driver will start to download the available files. In our case, we choose to download the files in **doc** type for further processing in the following stages. You may also choose PDF files, which may be more convenient to read.
 
 ### 3. Data preprocessing
