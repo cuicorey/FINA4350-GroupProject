@@ -8,7 +8,7 @@ The project aims to use ***Natural Language Processing*** (NLP) quantitatively a
 
 ## Web Scraping and Data Preprocessing
 ### 1. Data and Data source
-The data used for NLP analysis are ***earnings call transcripts***, ***quarterly reports(10-Q)***, ***annual reports (10-K)*** filed between Jan-10-2020, when WHO issued technical briefings warning about urging precautions of COVID-19, and Nov-10-2020. All the documents are downloaded from Capital IQ.
+The data used for NLP analysis are ***earnings call transcripts***, ***quarterly reports(10-Q)***, ***annual reports (10-K)*** filed between Jan-10-2020 and Nov-10-2020. All the documents are available from Capital IQ.
 
 Take Tesla,Inc.(NasdaqGS:TSLA) as an example. The following images show the target earnings call transcripts and financial reports to be used for analysis.
 
