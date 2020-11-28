@@ -1,6 +1,6 @@
 # Investigating Business Impact of COVID-19 through Nature Language Processing of Financial Reports and Earning Conference Call Transcripts
 
-The project aims to use **Natural Language Processing** (NLP) quantitatively analyze the effect of COVID-19 on some companies and industries. This blog will walk you through the techniques used for web scraping and data preprocessing and introduce the packages for sentiment analysis. The program language in theis project is based on Python 3.0.
+The project aims to use ***Natural Language Processing*** (NLP) quantitatively analyze the effect of COVID-19 on some companies and industries. This blog will walk you through the techniques used for web scraping and data preprocessing and introduce the packages for sentiment analysis. The program language in theis project is based on Python 3.0.
 
 ## Content
 - [Web Scraping and Data Preprocessing](#web-scraping-and-data-preprocessing)
@@ -8,7 +8,7 @@ The project aims to use **Natural Language Processing** (NLP) quantitatively ana
 
 ## Web Scraping and Data Preprocessing
 ### 1. Data and Data source
-The data used for NLP analysis are **earnings call transcripts**, **quarterly reports(10-Q)**, **annual reports (10-K)** filed between Jan-10-2020, when WHO issued technical briefings warning about urging precautions of COVID-19, and Nov-10-2020. All the documents are downloaded from Capital IQ.
+The data used for NLP analysis are ***earnings call transcripts***, ***quarterly reports(10-Q)***, ***annual reports (10-K)*** filed between Jan-10-2020, when WHO issued technical briefings warning about urging precautions of COVID-19, and Nov-10-2020. All the documents are downloaded from Capital IQ.
 
 Take Tesla,Inc.(NasdaqGS:TSLA) as an example. The following images show the target earnings call transcripts and financial reports to be used for analysis.
 
@@ -18,10 +18,10 @@ Image1.1
 <img width="940" alt="report" src="https://user-images.githubusercontent.com/62812841/100451885-12786b80-30f3-11eb-8f5a-a7c06e4f86f8.png">
 Image1.2
 
-Apart from the text documents used for NLP analysis, other types of data are also used in the analysis to determine the impact on companies. For instance, company **stock prices** are the indicator of financial performances, which are extracted from **Bloomberg**. Also, company locations and COVID-19 cases are used in the geographical analysis which is supposed to find whether there is a relationship between the average sentiment score of a location and the severity of the pandemic. Information about **company locations**, i.e. primary office address, is scraped from **Yahoo Finance**, and the **statistics of COVID-19** are available on Centers for **Disease Control and Prevention website**. 
+Apart from the text documents used for NLP analysis, other types of data are also used in the analysis to determine the impact on companies. For instance, company ***stock prices*** are the indicator of financial performances, which are extracted from ***Bloomberg***. Also, company locations and COVID-19 cases are used in the geographical analysis which is supposed to find whether there is a relationship between the average sentiment score of a location and the severity of the pandemic. Information about ***company locations***, i.e. primary office address, is scraped from ***Yahoo Finance***, and the ***statistics of COVID-19*** are available on Centers for ***Disease Control and Prevention website***. 
 
 ### 2. Web Scraping
-In order to web scrape the target documents from Capital IQ, we use **Selenium** with Python. For example, a task is to download the financial reports of Tesla in Image1.2.
+In order to web scrape the target documents from Capital IQ, we use ***Selenium*** with Python. For example, a task is to download the financial reports of Tesla in Image1.2.
 
 First, create a Chrome driver and use driver.get method to navigate to the page of Filing Annual Report website given by the URL.
 
@@ -42,7 +42,7 @@ Now, you will type in the Ticker of the company to search.
     driver.find_element(By.ID, "dspCustomView_Toggle_myCompanySearch_myInnerDS_myTickerBox").click()
     driver.find_element(By.ID, "dspCustomView_Toggle_myCompanySearch_myInnerDS_myTickerBox").send_keys("TSLA") #TSLA is the ticker of Tesla, it can be replaced by other company's Ticker
 
-Next step is to set the search criteria, including **Date Range**, **Form Types**, **Company Countries**.
+Next step is to set the search criteria, including ***Date Range***, ***Form Types***, ***Company Countries***.
 
 Data Range:
     
@@ -85,10 +85,10 @@ After the steps above, the driver will lead you to the page shown in Image1.2, c
     time.sleep(120)
     driver.quit()
 
-In our case, we choose to download the files in **doc** type for further processing in the following stages. You may also choose PDF files, which may be more convenient to read.
+In our case, we choose to download the files in ***doc*** type for further processing in the following stages. You may also choose PDF files, which may be more convenient to read.
 
 ### 3. Data preprocessing
-Since Python3 does not support reading doc files, we first convert all doc files to **docx** files.
+Since Python3 does not support reading doc files, we first convert all doc files to ***docx*** files.
 
     # Opening MS Word
     word = win32.gencache.EnsureDispatch('Word.Application')
@@ -111,7 +111,7 @@ Since Python3 does not support reading doc files, we first convert all doc files
 
 Then read docx files and store all the content to txt files, excluding tables in financial reports (not applicable for NLP analysis).
 
-For data cleaning, we use txt files as input, and go through the steps of **tokenization**, **non-English words** and **stop words removal**, **lowercase conversion**, and **lemmatization**.  These are the packages in use:
+For data cleaning, we use txt files as input, and go through the steps of ***tokenization***, ***non-English words*** and ***stop words removal***, ***lowercase conversion***, and ***lemmatization***.  These are the packages in use:
 
     from nltk import pos_tag
     from nltk.tokenize import word_tokenize, sent_tokenize
