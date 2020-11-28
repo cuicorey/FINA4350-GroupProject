@@ -19,8 +19,6 @@ Image1.1
 <img width="940" alt="report" src="https://user-images.githubusercontent.com/62812841/100451885-12786b80-30f3-11eb-8f5a-a7c06e4f86f8.png">
 Image1.2
 
-Apart from the text documents used for NLP analysis, other types of data are also used in the analysis to determine the impact on companies. For instance, company ***stock prices*** are the indicator of financial performances, which are extracted from ***Bloomberg***. Also, company locations and COVID-19 cases are used in the geographical analysis which is supposed to find whether there is a relationship between the average sentiment score of a location and the severity of the pandemic. Information about ***company locations***, i.e. primary office address, is scraped from ***Yahoo Finance***, and the ***statistics of COVID-19*** are available on Centers for ***Disease Control and Prevention website***. 
-
 ### 2. Web Scraping
 In order to web scrape the target documents from Capital IQ, we use ***Selenium*** with Python. For example, a task is to download the financial reports of Tesla in Image1.2.
 
