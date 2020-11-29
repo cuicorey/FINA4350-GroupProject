@@ -1,25 +1,25 @@
-# Investigating Business Impact of COVID-19 through Nature Language Processing of Financial Reports and Earning Conference Call Transcripts
+## Investigating Business Impact of COVID-19 through Nature Language Processing of Financial Reports and Earning Conference Call Transcripts
 
-The project aims to use ***Natural Language Processing*** (NLP) quantitatively analyze the effect of COVID-19 on some companies and industries. This blog will walk you through the techniques used for web scraping and data preprocessing and introduce the packages for sentiment analysis. The program language in theis project is based on Python 3.0.
+The project aims to use ***Natural Language Processing*** (NLP) quantitatively analyze the effect of COVID-19 on some companies and industries. This blog will walk you through the techniques used for web scraping and data preprocessing and introduce the packages for sentiment analysis. The program language in theis project is based on Python 3.
 
-## Content
+### Content
 - [Web Scraping and Data Preprocessing](#web-scraping-and-data-preprocessing)
 - [Sentiment Analysis](#sentiment-analysis)
 
-## Web Scraping and Data Preprocessing
-### 1. Data and Data source
+### Web Scraping and Data Preprocessing
+#### 1. Data and Data source
 The data used for NLP analysis are ***earnings call transcripts***, ***quarterly reports(10-Q)***, ***annual reports (10-K)*** filed between Jan-10-2020 and Nov-10-2020. All the documents are available from Capital IQ.
 
 Take Tesla,Inc.(NasdaqGS:TSLA) as an example. The following images show the target earnings call transcripts and financial reports to be used for analysis.
 
 <img width="946" alt="earnings transcript_TSLA" src="https://user-images.githubusercontent.com/62812841/100451812-fb397e00-30f2-11eb-8fc9-be7efdcdfd33.png">
-Image1.1
+                                                    Image1.1
 
 
 <img width="940" alt="report" src="https://user-images.githubusercontent.com/62812841/100451885-12786b80-30f3-11eb-8f5a-a7c06e4f86f8.png">
-Image1.2
+                                                    Image1.2
 
-### 2. Web Scraping
+#### 2. Web Scraping
 In order to web scrape the target documents from Capital IQ, we use ***Selenium*** with Python. For example, a task is to download the financial reports of Tesla in Image1.2.
 
 First, create a Chrome driver and use driver.get method to navigate to the page of Filing Annual Report website given by the URL.
@@ -86,7 +86,7 @@ After the steps above, the driver will lead you to the page shown in Image1.2, c
 
 In our case, we choose to download the files in ***doc*** type for further processing in the following stages. You may also choose PDF files, which may be more convenient to read.
 
-### 3. Data preprocessing
+#### 3. Data preprocessing
 Since Python3 does not support reading doc files, we first convert all doc files to ***docx*** files.
 
     # Opening MS Word
@@ -121,21 +121,21 @@ For data cleaning, we use txt files as input, and go through the steps of ***tok
 
 For the purpose of following analysis, all the texts are converted back to sentence and stored in txt file as cleaned data.
 
-## Sentiment Analysis
+### Sentiment Analysis
 
 We introduce three sentiment analysis methods used in our proect: 
 * [TextBlob](#TextBlob)
 * [NLTK Vader](#NLTK-Vader)
 * [FinBert](#FinBert)
 
-Suppose we have the following three sentences containing the word "COVID-19". Intuitively, the first sentence is negative, the second one is the neutral, and the last one is negative.
+Suppose we have the following three sentences containing the word ***"COVID-19"***. Intuitively, the first sentence is negative, the second one is the neutral, and the last one is negative.
 
     s1 = "The COVID-19 pandemic has seriously disrupted the global automotive industry and customer sales, production volumes."
     s2 = "We are continuing to monitor the impact of COVID-19 on financial condition and cash flows."
     s3 = "We are confident that the COVID-19 pandemic will not cause any disruptions to the supply of our medicine."
 
-### TextBlob
-TextBlob package is a simple way to conduct sentiment analysis. Its sentiment property can return the **polarity score** of a sentence. The score is a float within the range [-1.0, 1.0], where -1.0 is very negative and 1.0 is very positive.
+#### 1. TextBlob
+TextBlob package is a simple way to conduct sentiment analysis. Its sentiment property can return the ***polarity score*** of a sentence. The score is a float within the range [-1.0, 1.0], where -1.0 is very negative and 1.0 is very positive.
 
     # first, we import TextBlob package
     from textblob import TextBlob
@@ -159,7 +159,7 @@ The results are:
     s2 polarity score: 0.0
     s3 polarity score: 0.5
 
-### NLTK Vader
+#### 2. NLTK Vader
 
 NLTK Vader is another convenient package for sentiment analysis. Its result also ranges from -1 (very negative) to 1 (very positive)
 
@@ -181,7 +181,7 @@ The results are:
     s2 polarity score: 0.0
     s3 polarity score: 0.6412
 
-### FinBert
+#### 3. FinBert
 FinBERT is a BERT model pre-trained on financial communication text, including Corporate Reports 10-K & 10-Q, Earnings Call Transcripts and Analyst Report. It has the state-of-the-art performance on financial sentiment classification task.  
 Their paper is: *Yi Yang, Mark Christopher Siy UY, & Allen Huang. (2020). FinBERT: A Pretrained Language Model for Financial Communications.*
 You can find more information on their official [GitHub repo](https://github.com/yya518/FinBERT)  
@@ -217,6 +217,7 @@ Then, please set the parameters and weight path following the instruction in the
     max_seq_length = 256
     device = 'cuda:0'
     tokenizer = BertTokenizer(vocab_file = vocab_path, do_lower_case = True, do_basic_tokenize = True)
+
 Next, we load the fine-tuned model:
 
     model = BertClassification(weight_path= pretrained_weights_path, num_labels=num_labels, vocab=vocab)
@@ -248,8 +249,11 @@ Now, we can use the FinBert model on our three sentences:
             outputs = F.softmax(outputs,dim=1)
             print("s" + str(i), 'FinBert score: ', labels[torch.argmax(outputs).item()])
      
- The results are:
+The results are:
  
     s1 FinBert score:  -0.2335
     s2 FinBert score:  0.0003
     s3 FinBert score:  0.3602
+
+### Conclusion
+What has been mentioned above is the method we use to conduct sentiment analysis on finanical reports and earnings call transcripts. The follow-up analysis will be based on company-level, industry-level, and geographical-level.
