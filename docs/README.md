@@ -183,3 +183,133 @@ The results are:
     
 ### FinBert
 FinBERT is a BERT model pre-trained on financial communication text, including Corporate Reports 10-K & 10-Q, Earnings Call Transcripts and Analyst Report. It has the state-of-the-art performance on financial sentiment classification task. You can find more information on their official [GitHub repo](https://github.com/yya518/FinBERT)
+We introduce three sentiment analysis methods used in our proect: 
+* TextBlob
+* NLTK Vader
+* FinBert
+
+Suppose we have the following three sentences containing the word "COVID-19". Intuitively, the first sentence is negative, the second one is the neutral, and the last one is negative.
+
+    s1 = "The COVID-19 pandemic has seriously disrupted the global automotive industry and customer sales, production volumes."
+    s2 = "We are continuing to monitor the impact of COVID-19 on financial condition and cash flows."
+    s3 = "We are confident that the COVID-19 pandemic will not cause any disruptions to the supply of our medicine."
+
+### TextBlob
+TextBlob package is a simple way to conduct sentiment analysis. Its sentiment property can return the **polarity score** of a sentence. The score is a float within the range [-1.0, 1.0], where -1.0 is very negative and 1.0 is very positive.
+
+    # first, we import TextBlob package
+    from textblob import TextBlob
+
+    # then, we create a TextBlob objective based on s1
+    s1_tb = TextBlob(s1)
+
+    # then, we can calculate the polarity score of this TextBlob objective
+    s1_tb.sentiment.polarity
+
+The above code will return the polarity score of s1: -0.16666666666666666.  
+We can calculate the scores for these three sentences:
+
+    print("s1 polarity score:", TextBlob(s1).sentiment.polarity)
+    print("s2 polarity score:", TextBlob(s2).sentiment.polarity)
+    print("s3 polarity score:", TextBlob(s3).sentiment.polarity)
+
+The results are: 
+
+    s1 polarity score: -0.16666666666666666
+    s2 polarity score: 0.0
+    s3 polarity score: 0.5
+
+### NLTK Vader
+
+NLTK Vader is another convenient package for sentiment analysis. Its result also ranges from -1 (very negative) to 1 (very positive)
+
+    # first, we import the related package
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+    # next, we create the analyzer
+    analyzer = SentimentIntensityAnalyzer()
+
+    # then, we calculate the polarity scores of these three sentences
+    print("s1 polarity score:", analyzer.polarity_scores(s1)['compound'])
+    print("s2 polarity score:", analyzer.polarity_scores(s2)['compound'])
+    print("s3 polarity score:", analyzer.polarity_scores(s3)['compound'])
+
+
+The results are: 
+
+    s1 polarity score: -0.1779
+    s2 polarity score: 0.0
+    s3 polarity score: 0.6412
+
+### FinBert
+FinBERT is a BERT model pre-trained on financial communication text, including Corporate Reports 10-K & 10-Q, Earnings Call Transcripts and Analyst Report. It has the state-of-the-art performance on financial sentiment classification task.  
+Their paper is: *Yi Yang, Mark Christopher Siy UY, & Allen Huang. (2020). FinBERT: A Pretrained Language Model for Financial Communications.*
+You can find more information on their official [GitHub repo](https://github.com/yya518/FinBERT)  
+We use the fine-tuned model provided by the authors and change its last layer to output the sentiment score. In this setting, the score also ranges from -1 (very negative) to 1 (very positive).  
+You can also fine-tune the model on your text data first, and then use it for the following task.
+
+The requirements of FinBert model are:
+
+    pytorch-pretrained-bert==0.6.2
+    torch==1.2.0
+    torchvision==0.4.0
+    CUDA==10.1
+    
+First, we import the required packages:
+
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+    from torch.optim import lr_scheduler
+    from torch.utils.data import Dataset, DataLoader
+    from pytorch_pretrained_bert import BertTokenizer, BertModel, BertForMaskedLM, BertConfig
+    from bertModel import BertClassification, dense_opt # This is from the official GitHub of FinBert
+    from datasets import text_dataset, financialPhraseBankDataset # This is from the official GitHub of FinBert
+
+Then, please set the parameters and weight path following the instruction in the [link](https://github.com/yya518/FinBERT/blob/master/README.md)
+
+    labels = {0:'neutral', 1:'positive',2:'negative'}
+    num_labels = 3
+    vocab = "finance-uncased"
+    vocab_path = 'vocab'
+    pretrained_weights_path = "pretrained_weights" # this is pre-trained FinBERT weights
+    fine_tuned_weight_path = "fine_tuned.pth"      # this is fine-tuned FinBERT weights
+    max_seq_length = 256
+    device = 'cuda:0'
+    tokenizer = BertTokenizer(vocab_file = vocab_path, do_lower_case = True, do_basic_tokenize = True)
+Next, we load the fine-tuned model:
+
+    model = BertClassification(weight_path= pretrained_weights_path, num_labels=num_labels, vocab=vocab)
+    model.load_state_dict(torch.load(fine_tuned_weight_path, map_location = "cuda:0"))
+    model.to(device)
+    
+Now, we can use the FinBert model on our three sentences:
+    
+    sentences = [s1, s2, s3]
+    model.eval()
+    for sent, index in zip(sentences, range(0,3)):
+        tokenized_sent = tokenizer.tokenize(sent)
+        if len(tokenized_sent) > max_seq_length:
+            tokenized_sent = tokenized_sent[:max_seq_length]
+
+        ids_review  = tokenizer.convert_tokens_to_ids(tokenized_sent)
+        mask_input = [1]*len(ids_review)        
+        padding = [0] * (max_seq_length - len(ids_review))
+        ids_review += padding
+        mask_input += padding
+        input_type = [0]*max_seq_length
+
+        input_ids = torch.tensor(ids_review).to(device).reshape(-1, 256)
+        attention_mask =  torch.tensor(mask_input).to(device).reshape(-1, 256)
+        token_type_ids = torch.tensor(input_type).to(device).reshape(-1, 256)
+
+        with torch.set_grad_enabled(False):
+            outputs = model(input_ids, token_type_ids, attention_mask)
+            outputs = F.softmax(outputs,dim=1)
+            print("s" + str(i), 'FinBert score: ', labels[torch.argmax(outputs).item()])
+     
+ The results are:
+    s1 FinBert score:  -0.2335
+    s2 FinBert score:  0.0003
+    s3 FinBert score:  0.3602
+    
