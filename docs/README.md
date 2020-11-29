@@ -125,7 +125,7 @@ For the purpose of following analysis, all the texts are converted back to sente
 
 We introduce three sentiment analysis methods used in our proect: 
 * [TextBlob](#TextBlob)
-* [NLTK.Vader](#NLTK.Vader)
+* [NLTK Vader](#NLTK-Vader)
 * [FinBert](#FinBert)
 
 Suppose we have the following three sentences containing the word "COVID-19". Intuitively, the first sentence is negative, the second one is the neutral, and the last one is negative.
@@ -159,7 +159,7 @@ The results are:
     s2 polarity score: 0.0
     s3 polarity score: 0.5
     
-### NLTK.Vader
+### NLTK Vader
 
 NLTK Vader is another convenient package for sentiment analysis. Its result also ranges from -1 (very negative) to 1 (very positive)
     
