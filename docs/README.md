@@ -122,3 +122,64 @@ For data cleaning, we use txt files as input, and go through the steps of ***tok
 For the purpose of following analysis, all the texts are converted back to sentence and stored in txt file as cleaned data.
 
 ## Sentiment Analysis
+
+We introduce three sentiment analysis methods used in our proect: 
+* TextBlob
+* NLTK Vader
+* FinBert
+
+Suppose we have the following three sentences containing the word "COVID-19". Intuitively, the first sentence is negative, the second one is the neutral, and the last one is negative.
+
+    s1 = "The COVID-19 pandemic has seriously disrupted the global automotive industry and customer sales, production volumes."
+    s2 = "We are continuing to monitor the impact of COVID-19 on financial condition and cash flows."
+    s3 = "We are confident that the COVID-19 pandemic will not cause any disruptions to the supply of our medicine."
+
+### TextBlob
+TextBlob package is a simple way to conduct sentiment analysis. Its sentiment property can return the **polarity score** of a sentence. The score is a float within the range [-1.0, 1.0], where -1.0 is very negative and 1.0 is very positive.
+    
+    # first, we import TextBlob package
+    from textblob import TextBlob
+    
+    # then, we create a TextBlob objective based on s1
+    s1_tb = TextBlob(s1)
+    
+    # then, we can calculate the polarity score of this TextBlob objective
+    s1_tb.sentiment.polarity
+
+The above code will return the polarity score of s1: -0.16666666666666666.  
+We can calculate the scores for these three sentences:
+
+    print("s1 polarity score:", TextBlob(s1).sentiment.polarity)
+    print("s2 polarity score:", TextBlob(s2).sentiment.polarity)
+    print("s3 polarity score:", TextBlob(s3).sentiment.polarity)
+
+The results are: 
+
+    s1 polarity score: -0.16666666666666666
+    s2 polarity score: 0.0
+    s3 polarity score: 0.5
+    
+### NLTK Vader
+
+NLTK Vader is another convenient package for sentiment analysis. Its result also ranges from -1 (very negative) to 1 (very positive)
+    
+    # first, we import the related package
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer
+    
+    # next, we create the analyzer
+    analyzer = SentimentIntensityAnalyzer()
+
+    # then, we calculate the polarity scores of these three sentences
+    print("s1 polarity score:", analyzer.polarity_scores(s1)['compound'])
+    print("s2 polarity score:", analyzer.polarity_scores(s2)['compound'])
+    print("s3 polarity score:", analyzer.polarity_scores(s3)['compound'])
+
+
+The results are: 
+
+    s1 polarity score: -0.1779
+    s2 polarity score: 0.0
+    s3 polarity score: 0.6412
+    
+### FinBert
+FinBERT is a BERT model pre-trained on financial communication text, including Corporate Reports 10-K & 10-Q, Earnings Call Transcripts and Analyst Report. It has the state-of-the-art performance on financial sentiment classification task. You can find more information on their official [GitHub repo](https://github.com/yya518/FinBERT)
