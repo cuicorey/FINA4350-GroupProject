@@ -124,9 +124,9 @@ For the purpose of following analysis, all the texts are converted back to sente
 ## Sentiment Analysis
 
 We introduce three sentiment analysis methods used in our proect: 
-* TextBlob
-* NLTK Vader
-* FinBert
+* [TextBlob](#TextBlob)
+* [NLTK.Vader](#NLTK.Vader)
+* [FinBert](#FinBert)
 
 Suppose we have the following three sentences containing the word "COVID-19". Intuitively, the first sentence is negative, the second one is the neutral, and the last one is negative.
 
@@ -159,7 +159,7 @@ The results are:
     s2 polarity score: 0.0
     s3 polarity score: 0.5
     
-### NLTK Vader
+### NLTK.Vader
 
 NLTK Vader is another convenient package for sentiment analysis. Its result also ranges from -1 (very negative) to 1 (very positive)
     
@@ -309,7 +309,7 @@ Now, we can use the FinBert model on our three sentences:
             print("s" + str(i), 'FinBert score: ', labels[torch.argmax(outputs).item()])
      
  The results are:
+ 
     s1 FinBert score:  -0.2335
     s2 FinBert score:  0.0003
     s3 FinBert score:  0.3602
-    
