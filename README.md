@@ -1,4 +1,4 @@
-# NLP Analysis: Business Impact of COVID-19
+# NLP Analysis: Business Impact of COVID-19 :boom:
 This is the official repository of NLP Young OG's group project in FINA 4350.
 
 ## Group Members
@@ -27,5 +27,5 @@ Wu Shaoyi, Sophie (3035330179)
   
  ## Blog
  * [docs](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/docs): contains the files for our blog  
- You can view our blog by [link](https://cuicorey.github.io/FINA4350-GroupProject)
+ You can view our blog by this [link](https://cuicorey.github.io/FINA4350-GroupProject)
   
