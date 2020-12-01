@@ -30,4 +30,4 @@ Wu Shaoyi, Sophie (3035330179)
  You can view our blog by this [link](https://cuicorey.github.io/FINA4350-GroupProject)
   
 ## Data
-* Google Drive [link](https://drive.google.com/drive/folders/1Ltfqh9F3jhXMVTxKootUZbzKBf59f0_P?usp=sharing) of our dataset
+* Google Drive [link](https://drive.google.com/drive/folders/1Ltfqh9F3jhXMVTxKootUZbzKBf59f0_P?usp=sharing) to our dataset
