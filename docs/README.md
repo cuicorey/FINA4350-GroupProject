@@ -1,6 +1,6 @@
-## Investigating Business Impact of COVID-19 through Nature Language Processing of Financial Reports and Earning Conference Call Transcripts
+## Evaluating the Business Impact of COVID-19 using Natural Language Processing
 
-The project aims to use ***Natural Language Processing*** (NLP) quantitatively to analyze the effect of COVID-19 on some companies and industries. This blog will walk you through the techniques used for web scraping, data preprocessing, and sentiment analysis. The program language in use is based on Python 3.
+The project aims to use ***Natural Language Processing*** (NLP) to quantitatively analyze the business effect of COVID-19 on companies and industries. This blog will walk you through the techniques used for web scraping, data preprocessing, and sentiment analysis. The program language in use is based on Python 3.
 
 ### Content
 - [Web Scraping and Data Preprocessing](#web-scraping-and-data-preprocessing)
@@ -256,4 +256,4 @@ The results are:
     s3 FinBert score:  0.3602
 
 ### Conclusion
-What has been mentioned above is the methods we use to conduct sentiment analysis on finanical reports and earnings call transcripts. The further analysis will be conducted to find impact of COVID-19 on company level, industr level, and geographical level through statistics models and data visualization.
+What has been mentioned above is the methods we use to conduct sentiment analysis on finanical reports and earnings call transcripts. If your want to know more about our further analysis on company level, industry level, and geographic level through statistics models and data visualization, please check out official github [here](https://github.com/cuicorey/FINA4350-GroupProject).
