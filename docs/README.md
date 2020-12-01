@@ -256,4 +256,4 @@ The results are:
     s3 FinBert score:  0.3602
 
 ### Conclusion
-What has been mentioned above is the methods we use to conduct sentiment analysis on finanical reports and earnings call transcripts. If your want to know more about our further analysis on company level, industry level, and geographic level through statistics models and data visualization, please check out official repo [here](https://github.com/cuicorey/FINA4350-GroupProject).
+What has been mentioned above is the methods we use to conduct sentiment analysis on finanical reports and earnings call transcripts. If your want to know more about our further analysis on company level, industry level, and geographic level through statistics models and data visualization, please check our official repo [here](https://github.com/cuicorey/FINA4350-GroupProject).
