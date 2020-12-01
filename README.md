@@ -19,7 +19,7 @@ Wu Shaoyi, Sophie (3035330179)
 * [NLP_analysis](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/preprocess) contains the code for calculating the features using NLP
   * [dictionary_analysis.py](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/NLP_analysis/dictionary_analysis.py): calculate the dictionary-based features
   * [textblob_vader_analysis.py](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/NLP_analysis/textblob_vader_analysis.py): calculate the TB and VD scores
-  * [finbert_analysis.py](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/NLP_analysis/finbert_analysis.pp): calculate the FinBert score
+  * [finbert_analysis.py](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/NLP_analysis/finbert_analysis.py): calculate the FinBert score
 * [result_analysis.py](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/result_analysis): contains the code for analyzing the NLP results
   * [company_price.py](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/result_analysis/company_price.py): process the company stock price
   * [company_analysis.py](https://github.com/cuicorey/FINA4350-GroupProject/tree/master/result_analysis/company_analysis.py): conduct the company level analysis
