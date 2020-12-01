@@ -1,6 +1,6 @@
 ## Investigating Business Impact of COVID-19 through Nature Language Processing of Financial Reports and Earning Conference Call Transcripts
 
-The project aims to use ***Natural Language Processing*** (NLP) quantitatively analyze the effect of COVID-19 on some companies and industries. This blog will walk you through the techniques used for web scraping and data preprocessing and introduce the packages for sentiment analysis. The program language in theis project is based on Python 3.
+The project aims to use ***Natural Language Processing*** (NLP) quantitatively to analyze the effect of COVID-19 on some companies and industries. This blog will walk you through the techniques used for web scraping, data preprocessing, and sentiment analysis. The program language in use is based on Python 3.
 
 ### Content
 - [Web Scraping and Data Preprocessing](#web-scraping-and-data-preprocessing)
@@ -8,19 +8,19 @@ The project aims to use ***Natural Language Processing*** (NLP) quantitatively a
 
 ### Web Scraping and Data Preprocessing
 #### 1. Data and Data source
-The data used for NLP analysis are ***earnings call transcripts***, ***quarterly reports(10-Q)***, ***annual reports (10-K)*** filed between Jan-10-2020 and Nov-10-2020. All the documents are available from Capital IQ.
+The data used for NLP analysis are ***earnings call transcripts***, ***quarterly reports(10-Q)***, and ***annual reports (10-K)*** filed between Jan-10-2020 and Nov-10-2020. All the documents are available from Capital IQ.
 
-Take Tesla,Inc.(NasdaqGS:TSLA) as an example. The following images show the target earnings call transcripts and financial reports to be used for analysis.
+We will take Tesla,Inc. (NasdaqGS:TSLA) as an example to illustrate. The following images show the target earnings call transcripts and financial reports to be used for analysis.
 
 <img width="946" alt="earnings transcript_TSLA" src="https://user-images.githubusercontent.com/62812841/100451812-fb397e00-30f2-11eb-8fc9-be7efdcdfd33.png">
-                                                    Image1.1
+Image1.1
 
 
 <img width="940" alt="report" src="https://user-images.githubusercontent.com/62812841/100451885-12786b80-30f3-11eb-8f5a-a7c06e4f86f8.png">
-                                                    Image1.2
+Image1.2
 
 #### 2. Web Scraping
-In order to web scrape the target documents from Capital IQ, we use ***Selenium*** with Python. For example, a task is to download the financial reports of Tesla in Image1.2.
+In order to extract the target documents from Capital IQ through web scraping, we use ***Selenium*** with Python. For example, a task is to download the financial reports of Tesla shown in Image1.2.
 
 First, create a Chrome driver and use driver.get method to navigate to the page of Filing Annual Report website given by the URL.
 
@@ -29,21 +29,21 @@ First, create a Chrome driver and use driver.get method to navigate to the page 
     driver.delete_all_cookies()
     driver.get("https://www.capitaliq.com/CIQDotNet/Filings/FilingsAnnualReports.aspx")
 
-Since the Capital IQ requires login information to access the website, you will then input your username and password, and click "Login" button. 
+Since the Capital IQ requires login information to access the website, you need to input the username and password, and click "Login" button. 
 
     driver.find_element(By.ID, "password").send_keys("...") #...input password
     driver.find_element(By.ID, "username").click()
     driver.find_element(By.ID, "username").send_keys("...") #... input username
     driver.find_element(By.ID, "myLoginButton").click()
 
-Now, you will type in the Ticker of the company to search.
+Next, type in the Ticker of the company to search.
 
     driver.find_element(By.ID, "dspCustomView_Toggle_myCompanySearch_myInnerDS_myTickerBox").click()
     driver.find_element(By.ID, "dspCustomView_Toggle_myCompanySearch_myInnerDS_myTickerBox").send_keys("TSLA") #TSLA is the ticker of Tesla, it can be replaced by other company's Ticker
 
-Next step is to set the search criteria, including ***Date Range***, ***Form Types***, ***Company Countries***.
+Next step is to set the search criteria, including ***Date Range***, ***Form Types***, ***Company Countries***. In our case, date range should be from 01/20/2020 to 11/20/2020. Form types include 10Q and 10K. Company countries should be the United States.
 
-Data Range:
+Data Range: 
     
     driver.find_element(By.ID, "dspCustomView_Toggle_ddlDateType").click()
     dropdown = driver.find_element(By.ID, "dspCustomView_Toggle_ddlDateType")
@@ -74,7 +74,7 @@ Then, start to search:
     actions = ActionChains(driver)
     actions.move_to_element(element).perform()
     
-After the steps above, the driver will lead you to the page shown in Image1.2, click the button with a doc icon and quit the driver. 
+After following the steps above, the driver will lead you to the page shown in Image1.2, click the button with a doc icon and quit the driver. 
 
     element = driver.find_element(By.CSS_SELECTOR, "body")
     driver.find_element(By.CSS_SELECTOR, "tr:nth-child(1) .binderIcoSprite_doctype_word_img").click()
@@ -84,10 +84,10 @@ After the steps above, the driver will lead you to the page shown in Image1.2, c
     time.sleep(120)
     driver.quit()
 
-In our case, we choose to download the files in ***doc*** type for further processing in the following stages. You may also choose PDF files, which may be more convenient to read.
+In our case, we choose to download the files in ***doc*** format for further processing in the following stages. You may also choose PDF files, which may be more convenient to read for Python.
 
 #### 3. Data preprocessing
-Since Python3 does not support reading doc files, we first convert all doc files to ***docx*** files.
+Since Python 3 does not support reading doc files, we first convert all doc files to ***docx*** files.
 
     # Opening MS Word
     word = win32.gencache.EnsureDispatch('Word.Application')
@@ -119,7 +119,7 @@ For data cleaning, we use txt files as input, and go through the steps of ***tok
     import re
     from tqdm import tqdm
 
-For the purpose of following analysis, all the texts are converted back to sentence and stored in txt file as cleaned data.
+For the purpose of the following analysis, all the texts are converted back to sentence and stored in txt file as cleaned data.
 
 ### Sentiment Analysis
 
@@ -128,7 +128,7 @@ We introduce three sentiment analysis methods used in our proect:
 * [NLTK Vader](#NLTK-Vader)
 * [FinBert](#FinBert)
 
-Suppose we have the following three sentences containing the word ***"COVID-19"***. Intuitively, the first sentence is negative, the second one is the neutral, and the last one is negative.
+Suppose we have the following three sentences containing the word ***"COVID-19"***. Intuitively, the first sentence is negative, the second one is the neutral, and the last one is positive.
 
     s1 = "The COVID-19 pandemic has seriously disrupted the global automotive industry and customer sales, production volumes."
     s2 = "We are continuing to monitor the impact of COVID-19 on financial condition and cash flows."
@@ -256,4 +256,4 @@ The results are:
     s3 FinBert score:  0.3602
 
 ### Conclusion
-What has been mentioned above is the method we use to conduct sentiment analysis on finanical reports and earnings call transcripts. The follow-up analysis will be based on company-level, industry-level, and geographical-level.
+What has been mentioned above is the methods we use to conduct sentiment analysis on finanical reports and earnings call transcripts. The further analysis will be conducted to find impact of COVID-19 on company level, industr level, and geographical level through statistics models and data visualization.
